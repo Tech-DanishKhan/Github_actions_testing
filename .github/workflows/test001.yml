@@ -2,7 +2,7 @@ on:
   workflow_dispatch:
     inputs:
       deploy_target:
-        required: true
+        required: false
         type: string
       perform_deploy:
         required: true
@@ -13,5 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print the input name to STDOUT
-        run: echo The username is ${{ inputs.deploy_target}}
+      - name: Check if username is provided
+        run: |
+          if [[ inputs.perform_deploy == "true" ]]; then
+            echo "The username is provided and is not '123'."
+            USERNAME_PROVIDED=true
+          else
+            echo "The username is 'john-doe'."
+            USERNAME_PROVIDED=false
+          fi
