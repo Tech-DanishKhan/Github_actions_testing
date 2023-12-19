@@ -1,9 +1,6 @@
 on:
   workflow_dispatch:
     inputs:
-      deploy_target:
-        required: false
-        type: string
       perform_deploy:
         required: true
         type: boolean
