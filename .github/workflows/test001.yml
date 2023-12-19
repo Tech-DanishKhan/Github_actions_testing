@@ -13,10 +13,9 @@ jobs:
     steps:
       - name: Check if username is provided
         run: |
-          if ${{ inputs.perform_deploy }}; then
-            echo "The username is provided and is not '123'."
+          if ${{ inputs.is_secondary_region_up }}; then
+            echo "Yes the seconadry region is up."
             USERNAME_PROVIDED=true
           else
-            echo "The username is 'john-doe'."
-            USERNAME_PROVIDED=false
+            echo "Yes the seconadry region is not up."
           fi
