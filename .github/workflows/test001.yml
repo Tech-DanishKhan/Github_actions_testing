@@ -1,9 +1,6 @@
 on:
   workflow_dispatch:
     inputs:
-      build_id:
-        required: true
-        type: string
       deploy_target:
         required: true
         type: string
@@ -12,9 +9,9 @@ on:
         type: boolean
 
 jobs:
-  deploy:
+  print-username:
     runs-on: ubuntu-latest
-    if: ${{ inputs.perform_deploy }}
+
     steps:
-      - name: Deploy build to target
-        run: deploy --build ${{ inputs.build_id }} --target ${{ inputs.deploy_target }}
+      - name: Print the input name to STDOUT
+        run: echo The username is ${{ inputs.deploy_target}}
