@@ -15,3 +15,4 @@ jobs:
         run: |
           if ${{ github.event.inputs.is_secondary_region_up }}; then
             echo "Yes the seconadry region is up."
+          fi
