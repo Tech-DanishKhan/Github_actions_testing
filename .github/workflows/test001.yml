@@ -1,7 +1,9 @@
 on:
   workflow_dispatch:
     inputs:
-      perform_deploy:
+      is_secondary_region_up:
+        description: 'Checking whether the ECS in Secondary Region ( us-east-2 ) is up or not'
+        default: 'false'
         required: true
         type: boolean
 
