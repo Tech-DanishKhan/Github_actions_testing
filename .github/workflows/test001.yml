@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Check if username is provided
         run: |
-          if [[ inputs.perform_deploy == "true" ]]; then
+          if ${{ inputs.perform_deploy }}; then
             echo "The username is provided and is not '123'."
             USERNAME_PROVIDED=true
           else
