@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Check if username is provided
         run: |
-          if ${{ inputs.is_secondary_region_up }}; then
+          if ${{ github.event.inputs.is_secondary_region_up }}; then
             echo "Yes the seconadry region is up."
             USERNAME_PROVIDED=true
           else
