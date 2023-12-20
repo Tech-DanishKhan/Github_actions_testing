@@ -21,4 +21,4 @@ jobs:
           fi
           
       - name: "Use the variable"
-        run: echo "the output is ---> $env.Secondary_region_is_active"
+        run: echo "the output is ---> ${{ env.Secondary_region_is_active }}"
