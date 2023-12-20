@@ -8,15 +8,9 @@ on:
         required: true
         type: boolean
 
-env:
-  DAY_OF_WEEK: Monday
-  First_Name: Mona
-
 jobs:
   greeting_job:
     runs-on: ubuntu-latest
-    env:
-      Greeting: Hello
     steps:
       - name: "Checking Variable Usage"
         run: | 
