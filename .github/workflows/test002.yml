@@ -8,22 +8,26 @@ on:
 
 jobs:
 
-  build:
-    run: |
-      if ${{ github.event.inputs.is_secondary_region_active }}; then
-      uses: ISS/workflows/.github/workflows/oort-build.yml@main
-      with:
-        # slack_events_channel: "#SLACK_EVENTS_CHANNEL_HERE"
-        # notify_slack: False
-        build_artifact_id: prod-${{ github.run_number }}
-        aws_account_id: ${{ vars.PROD_AWS_ACCOUNT_ID }}
-      secrets:
-        artifactory_username: ${{ secrets.ARTIFACTORY_USERNAME }}
-        artifactory_api_key: ${{ secrets.ARTIFACTORY_API_KEY }}
-        # slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
-      else
-      echo "No the Secondary region is not up."
-      fi  
+  print-username:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if username is provided
+        run: |
+          if ${{ github.event.inputs.is_secondary_region_active }}; then
+            uses: ISS/workflows/.github/workflows/oort-build.yml@main
+            with:
+            # slack_events_channel: "#SLACK_EVENTS_CHANNEL_HERE"
+            # notify_slack: False
+            build_artifact_id: prod-${{ github.run_number }}
+            aws_account_id: ${{ vars.PROD_AWS_ACCOUNT_ID }}
+            secrets:
+              artifactory_username: ${{ secrets.ARTIFACTORY_USERNAME }}
+              artifactory_api_key: ${{ secrets.ARTIFACTORY_API_KEY }}
+              # slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          else
+            echo "No the Secondary region is not up."
+          fi  
     
 
   # integration-testing:
