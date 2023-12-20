@@ -21,4 +21,4 @@ jobs:
           fi
           
       - name: "Use the variable"
-        run: echo "$GITHUB_ENV"
+        run: echo "the output is ---> $GITHUB_ENV"
