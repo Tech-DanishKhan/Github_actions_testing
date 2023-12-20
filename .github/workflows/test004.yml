@@ -18,11 +18,13 @@ jobs:
     env:
       Greeting: Hello
     steps:
-      - name: "Say Hello Mona it's Monday"
+      - name: "Checking Variable Usage"
         run: | 
           if ${{ github.event.inputs.is_secondary_region_up }}; then
-            echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+            env:
+              Secondary_region_is_active: 'Yes'
           else
-            echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+            env:
+              Secondary_region_is_active: 'No'
           fi  
-       
+          echo "$Secondary_region_is_active"
