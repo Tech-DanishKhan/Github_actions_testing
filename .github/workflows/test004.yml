@@ -27,4 +27,4 @@ jobs:
           fi
           
       - name: "Use the variable"
-        run: echo "Secondary region is active: $Secondary_region_is_active"
+        run: echo "$GITHUB_ENV"
