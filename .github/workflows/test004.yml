@@ -26,9 +26,5 @@ jobs:
             echo "Secondary_region_is_active=No" >> $GITHUB_ENV
           fi
           
-          echo "$Secondary_region_is_active"
-          
-          # Use the environment variable directly in subsequent steps
-          # For example:
-          # - name: Use the variable
-          #   run: echo "Secondary region is active: $Secondary_region_is_active"
+      - name: "Use the variable"
+        run: echo "Secondary region is active: $Secondary_region_is_active"
