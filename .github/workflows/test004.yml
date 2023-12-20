@@ -15,10 +15,10 @@ jobs:
       - name: "Checking Variable Usage"
         run: | 
           if [[ "${{ github.event.inputs.is_secondary_region_up }}" == "true" ]]; then
-            echo "Yes" >> $Secondary_region_is_active
+            echo "Yes" >> $GITHUB_ENV
           else
-            echo "No" >> $Secondary_region_is_active
+            echo "No" >> $GITHUB_ENV
           fi
           
       - name: "Use the variable"
-        run: echo "$Secondary_region_is_active"
+        run: echo "$GITHUB_ENV"
