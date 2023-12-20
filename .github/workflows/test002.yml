@@ -40,15 +40,15 @@ jobs:
   #     artifactory_username: ${{ secrets.ARTIFACTORY_USERNAME }}
   #     artifactory_api_key: ${{ secrets.ARTIFACTORY_API_KEY }}       
 
-  print-username:
-    runs-on: ubuntu-latest
+  # print-username:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Check if username is provided
-        run: |
-          if ${{ github.event.inputs.is_secondary_region_active }}; then
-            echo "Yes the seconadry region is up."
-          else
-            echo "No the Secondary region is not up."
-          fi
+  #   steps:
+  #     - name: Check if username is provided
+  #       run: |
+  #         if ${{ github.event.inputs.is_secondary_region_active }}; then
+  #           echo "Yes the seconadry region is up."
+  #         else
+  #           echo "No the Secondary region is not up."
+  #         fi
       
