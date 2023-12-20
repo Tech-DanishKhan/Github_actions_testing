@@ -22,9 +22,9 @@ jobs:
         run: | 
           if ${{ github.event.inputs.is_secondary_region_up }}; then
             env:
-              Secondary_region_is_active: 'Yes'
+              Secondary_region_is_active: Yes
           else
             env:
-              Secondary_region_is_active: 'No'
+              Secondary_region_is_active: No
           fi  
           echo "$Secondary_region_is_active"
