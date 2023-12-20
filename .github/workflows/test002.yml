@@ -9,7 +9,8 @@ on:
 jobs:
 
   build:
-    if ${{ github.event.inputs.is_secondary_region_active }}; then
+    run: |
+      if ${{ github.event.inputs.is_secondary_region_active }}; then
       uses: ISS/workflows/.github/workflows/oort-build.yml@main
       with:
         # slack_events_channel: "#SLACK_EVENTS_CHANNEL_HERE"
@@ -20,9 +21,9 @@ jobs:
         artifactory_username: ${{ secrets.ARTIFACTORY_USERNAME }}
         artifactory_api_key: ${{ secrets.ARTIFACTORY_API_KEY }}
         # slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
-    else
+      else
       echo "No the Secondary region is not up."
-    fi  
+      fi  
     
 
   # integration-testing:
