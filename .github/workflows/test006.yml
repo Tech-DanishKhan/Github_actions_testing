@@ -1,0 +1,79 @@
+ name: Deploy to Prod us-east-2
+
+# Summary
+# Manually build and deploy prod environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      is_secondary_region_active:
+        default: 'false'
+        required: true
+        type: boolean
+
+env:
+  Secondary_region: us-east-2
+
+jobs:
+
+  build:
+    runs-on: Ubuntu-Latest
+    
+  approval-for-deployment:
+    needs: [build]
+    runs-on: Ubuntu-Latest
+    environment: prod-next
+    steps:
+      - name: "Workflow approved for deployment"
+        run: |
+          echo  "deployment pipeline approved"
+
+  create-change-request:
+    needs: [approval-for-deployment]
+    runs-on: Ubuntu-Latest
+
+
+  deploy-to-prod:
+    needs: [create-change-request]
+ 
+  integration-testing:
+    if: ${{ github.event.inputs.is_secondary_region_active }}
+    needs: [deploy-to-prod]
+    runs-on: Ubuntu-Latest
+    
+
+  promote-to-prod-when-secondary-region-active:
+    if: ${{ github.event.inputs.is_secondary_region_active == 'True'}}
+    needs: [integration-testing]
+    runs-on: Ubuntu-Latest
+     
+
+  promote-to-prod-when-secondary-region-not-active:
+    if: ${{ github.event.inputs.is_secondary_region_active == 'false'}}
+    needs: [deploy-to-prod]
+    runs-on: Ubuntu-Latest
+          
+
+  close-change-request-failure-when-secondary-region-active:
+    if: ${{ github.event.inputs.is_secondary_region_active == 'True'}}
+    needs: [deploy-to-prod, promote-to-prod-when-secondary-region-active, scale-down-prev-instance, create-change-request]
+    runs-on: Ubuntu-Latest
+    
+
+  close-change-request-failure-when-secondary-region-not-active:
+    if: ${{ github.event.inputs.is_secondary_region_active == 'false'}}
+    needs: [deploy-to-prod, promote-to-prod-when-secondary-region-not-active, create-change-request]
+    runs-on: Ubuntu-Latest
+    
+
+  close-change-request-success-when-secondary-region-active:
+    if: ${{ github.event.inputs.is_secondary_region_active == 'True'}}
+    needs: [deploy-to-prod, promote-to-prod-when-secondary-region-active, scale-down-prev-instance, create-change-request]
+    runs-on: Ubuntu-Latest
+    
+
+   close-change-request-success_when_secondary_region_not_active:
+    if: ${{ github.event.inputs.is_secondary_region_active == 'false'}}
+    needs: [deploy-to-prod, promote-to-prod-when-secondary-region-not-active, create-change-request]
+    runs-on: Ubuntu-Latest
+   
