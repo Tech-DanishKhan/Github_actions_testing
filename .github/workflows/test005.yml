@@ -109,7 +109,7 @@ jobs:
   #         user: "${{ github.actor }}"
 
   close-change-request-failure:
-    needs: [deploy-to-prod, ${{ env.Need2 }}, create-change-request]
+    needs:  ${{ env.Need2 }} 
     runs-on: Ubuntu-Latest
     steps:
       - name: "close-change-request-failure"
@@ -118,7 +118,7 @@ jobs:
     
 
   close-change-request-success:
-    needs: [deploy-to-prod, ${{ env.Need2 }}, create-change-request]
+    needs: ${{ env.Need2 }}
     runs-on: CAI-Enterprise-Ubuntu-Latest
     steps:
       - name: "close-change-request-success"
