@@ -49,8 +49,7 @@ jobs:
 
  
   integration-testing:
-    runs-on: CAI-Enterprise-Ubuntu-Latest
-
+    runs-on: Ubuntu-Latest
     steps:
       - name: integration-testing
         run: |
