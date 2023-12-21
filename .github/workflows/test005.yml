@@ -1,0 +1,127 @@
+name: Deploy to Prod us-east-2
+
+# Summary
+# Manually build and deploy prod environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      is_secondary_region_active:
+        default: 'false'
+        required: true
+        type: boolean
+
+env:
+  Secondary_region: us-east-2
+
+jobs:
+
+  build:
+    echo "build ."
+
+  approval-for-deployment:
+    needs: [build]
+    runs-on: Ubuntu-Latest
+    steps:
+      - name: "Workflow approved for deployment"
+        run: |
+          echo "approval-for-deployment ."
+
+  create-change-request:
+    needs: [approval-for-deployment]
+    runs-on: Ubuntu-Latest
+    steps:
+      - name: "Create change request"
+        run: |
+          echo "create-change-request ."
+
+  deploy-to-prod:
+    needs: [create-change-request]
+    runs-on: Ubuntu-Latest
+    steps:
+      - name: "deploy-to-prod"
+        run: |
+          echo "deploy-to-prod ."
+
+ 
+  integration-testing:
+    runs-on: CAI-Enterprise-Ubuntu-Latest
+
+    steps:
+      - name: integration-testing
+        run: |
+          if ${{ github.event.inputs.is_secondary_region_active }}; then
+            echo "integration-testing"
+            echo "Need1=integration-testing" >> $GITHUB_ENV  
+          else
+            echo "integration-testing"
+            echo "Need1=deploy-to-prod" >> $GITHUB_ENV 
+          fi  
+
+  promote-to-prod:
+    needs: ${{ env.Need1 }}
+    runs-on: Ubuntu-Latest
+    steps:
+      - name: "promote-to-prod"
+        run: |
+          echo "promote-to-prod ."  
+
+  scale-down-prev-instance:
+    needs: [promote-to-prod]
+    runs-on: Ubuntu-Latest
+    steps:
+      - name: scale-down-prev-instance
+        run: |
+          if ${{ github.event.inputs.is_secondary_region_active }}; then
+            echo "scale-down-prev-instance ."
+            echo "Need2=scale-down-prev-instance" >> $GITHUB_ENV  
+          else
+            echo "scale-down-prev-instance ."
+            echo "Need2=promote-to-prod" >> $GITHUB_ENV 
+          fi        
+
+## NOTE: "We are skipping the deployment marker for now in secondary region as APM does not exists."
+  # newrelic-deployment-marker:
+  #   needs: [promote-to-prod, create-change-request]
+  #   if: ${{ github.event.inputs.is_secondary_region_active }}
+  #   runs-on: CAI-Enterprise-Ubuntu-Latest
+  #   if: ${{ needs.promote-to-prod.result == 'success' }}
+  #   steps:
+  #     # This step builds a var with the release tag value to use later
+  #     - name: Set Release Version from Tag
+  #       run: echo "RELEASE_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+
+  #     # This step creates a new Change Tracking Marker
+  #     - name: New Relic Application Deployment Marker
+  #       env:
+  #         CHANGE_NUMBER: ${{needs.create-change-request.outputs.CHANGE_NUMBER}}
+  #       uses: newrelic/deployment-marker-action@v2.4.0
+  #       with:
+  #         apiKey: ${{ secrets.NEW_RELIC_API_KEY }}
+  #         description: |
+  #           Change Request Number: ${{ env.CHANGE_NUMBER }}
+  #           Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  #           ${{ vars.NEW_RELIC_DEPLOYMENT_MARKER_DESCRIPTION }}
+  #         region: "US"
+  #         guid: ${{ secrets.NEW_RELIC_DEPLOYMENT_PROD_US_EAST_2_ENTITY_GUID }}
+  #         deploymentType: "BLUE_GREEN"
+  #         version: "${{ env.RELEASE_VERSION }}"
+  #         user: "${{ github.actor }}"
+
+  close-change-request-failure:
+    needs: [deploy-to-prod, ${{ env.Need2 }}, create-change-request]
+    runs-on: Ubuntu-Latest
+    steps:
+      - name: "close-change-request-failure"
+        run: |
+          echo "close-change-request-failure"
+    
+
+  close-change-request-success:
+    needs: [deploy-to-prod, ${{ env.Need2 }}, create-change-request]
+    runs-on: CAI-Enterprise-Ubuntu-Latest
+    steps:
+      - name: "close-change-request-success"
+        run: |
+          echo "close-change-request-success ."
+    
