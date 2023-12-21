@@ -15,8 +15,13 @@ env:
   Secondary_region: us-east-2
 
 jobs:
+
   build:
     runs-on: Ubuntu-Latest
+    steps:
+      - name: "build"
+        run: |
+          echo "build"
     
   approval-for-deployment:
     needs: [build]
