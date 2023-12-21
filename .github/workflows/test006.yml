@@ -126,6 +126,7 @@ jobs:
       - name: "close-change-request-success_when_secondary_region_not_active"
         run: |
           echo "close-change-request-success_when_secondary_region_not_active"
-          aws_region: $secondary_region
-          echo "$aws_region"
+          env:
+            AWS_SECRET_ACCESS_KEY: $secondary_region
+          echo "$AWS_SECRET_ACCESS_KEY"
    
