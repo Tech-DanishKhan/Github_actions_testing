@@ -84,36 +84,8 @@ jobs:
             echo "Need2=promote-to-prod" >> $GITHUB_ENV 
           fi        
 
-## NOTE: "We are skipping the deployment marker for now in secondary region as APM does not exists."
-  # newrelic-deployment-marker:
-  #   needs: [promote-to-prod, create-change-request]
-  #   if: ${{ github.event.inputs.is_secondary_region_active }}
-  #   runs-on: CAI-Enterprise-Ubuntu-Latest
-  #   if: ${{ needs.promote-to-prod.result == 'success' }}
-  #   steps:
-  #     # This step builds a var with the release tag value to use later
-  #     - name: Set Release Version from Tag
-  #       run: echo "RELEASE_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
-
-  #     # This step creates a new Change Tracking Marker
-  #     - name: New Relic Application Deployment Marker
-  #       env:
-  #         CHANGE_NUMBER: ${{needs.create-change-request.outputs.CHANGE_NUMBER}}
-  #       uses: newrelic/deployment-marker-action@v2.4.0
-  #       with:
-  #         apiKey: ${{ secrets.NEW_RELIC_API_KEY }}
-  #         description: |
-  #           Change Request Number: ${{ env.CHANGE_NUMBER }}
-  #           Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-  #           ${{ vars.NEW_RELIC_DEPLOYMENT_MARKER_DESCRIPTION }}
-  #         region: "US"
-  #         guid: ${{ secrets.NEW_RELIC_DEPLOYMENT_PROD_US_EAST_2_ENTITY_GUID }}
-  #         deploymentType: "BLUE_GREEN"
-  #         version: "${{ env.RELEASE_VERSION }}"
-  #         user: "${{ github.actor }}"
-
   close-change-request-failure:
-    needs:  ${{ env.Need2 }} 
+    needs:  '${{ env.Need2 }}'
     runs-on: Ubuntu-Latest
     steps:
       - name: "close-change-request-failure"
@@ -122,7 +94,7 @@ jobs:
     
 
   close-change-request-success:
-    needs: ${{ env.Need2 }}
+    needs: '${{ env.Need2 }}'
     runs-on: CAI-Enterprise-Ubuntu-Latest
     steps:
       - name: "close-change-request-success"
