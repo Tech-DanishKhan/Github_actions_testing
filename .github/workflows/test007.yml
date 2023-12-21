@@ -9,4 +9,4 @@ jobs:
     steps:
       - continue-on-error: ${{ (env.time) }}
         run: |
-          echo "$continue-on-error"
+          echo "${{continue-on-error}}"
