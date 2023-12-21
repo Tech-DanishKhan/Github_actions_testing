@@ -15,7 +15,6 @@ env:
   Secondary_region: us-east-2
 
 jobs:
-
   build:
     runs-on: Ubuntu-Latest
     
