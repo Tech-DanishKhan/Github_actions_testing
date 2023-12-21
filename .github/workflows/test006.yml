@@ -10,6 +10,9 @@ on:
         default: 'false'
         required: true
         type: boolean
+        
+env:
+  secondary_region: us-east-2
 
 jobs:
 
@@ -51,9 +54,9 @@ jobs:
     needs: [deploy-to-prod]
     runs-on: Ubuntu-Latest
     steps:
-      - name: "deploy-to-prod"
+      - name: "integration-testing"
         run: |
-          echo "deploy-to-prod"
+          echo "integration-testing"
     
 
   promote-to-prod-when-secondary-region-active:
@@ -61,9 +64,9 @@ jobs:
     needs: [integration-testing]
     runs-on: Ubuntu-Latest
     steps:
-      - name: "deploy-to-prod"
+      - name: "promote-to-prod-when-secondary-region-active"
         run: |
-          echo "deploy-to-prod"
+          echo "promote-to-prod-when-secondary-region-active"
      
 
   promote-to-prod-when-secondary-region-not-active:
@@ -71,27 +74,27 @@ jobs:
     needs: [deploy-to-prod]
     runs-on: Ubuntu-Latest
     steps:
-      - name: "deploy-to-prod"
+      - name: "promote-to-prod-when-secondary-region-not-active"
         run: |
-          echo "deploy-to-prod"
+          echo "promote-to-prod-when-secondary-region-not-active"
           
   scale-down-prev-instance:
     if: ${{ github.event.inputs.is_secondary_region_active == 'True'}}
     needs: [promote-to-prod-when-secondary-region-active]
     runs-on: Ubuntu-Latest
     steps:
-      - name: "deploy-to-prod"
+      - name: "scale-down-prev-instance"
         run: |
-          echo "deploy-to-prod"
+          echo "scale-down-prev-instance"
       
   close-change-request-failure-when-secondary-region-active:
     if: ${{ github.event.inputs.is_secondary_region_active == 'True'}}
     needs: [deploy-to-prod, promote-to-prod-when-secondary-region-active, scale-down-prev-instance, create-change-request]
     runs-on: Ubuntu-Latest
     steps:
-      - name: "deploy-to-prod"
+      - name: "close-change-request-failure-when-secondary-region-active"
         run: |
-          echo "deploy-to-prod"
+          echo "close-change-request-failure-when-secondary-region-active"
     
 
   close-change-request-failure-when-secondary-region-not-active:
@@ -99,9 +102,9 @@ jobs:
     needs: [deploy-to-prod, promote-to-prod-when-secondary-region-not-active, create-change-request]
     runs-on: Ubuntu-Latest
     steps:
-      - name: "deploy-to-prod"
+      - name: "close-change-request-failure-when-secondary-region-not-active"
         run: |
-          echo "deploy-to-prod"
+          echo "close-change-request-failure-when-secondary-region-not-active"
     
 
   close-change-request-success-when-secondary-region-active:
@@ -109,17 +112,20 @@ jobs:
     needs: [deploy-to-prod, promote-to-prod-when-secondary-region-active, scale-down-prev-instance, create-change-request]
     runs-on: Ubuntu-Latest
     steps:
-      - name: "deploy-to-prod"
+      - name: "close-change-request-success-when-secondary-region-active"
         run: |
-          echo "deploy-to-prod"
+          echo "close-change-request-success-when-secondary-region-active"
     
 
   close-change-request-success_when_secondary_region_not_active:
     if: ${{ github.event.inputs.is_secondary_region_active == 'false'}}
     needs: [deploy-to-prod, promote-to-prod-when-secondary-region-not-active, create-change-request]
     runs-on: Ubuntu-Latest
+    
     steps:
-      - name: "deploy-to-prod"
+      - name: "close-change-request-success_when_secondary_region_not_active"
         run: |
-          echo "deploy-to-prod"
+          echo "close-change-request-success_when_secondary_region_not_active"
+          aws_region: $secondary_region
+          echo "$aws_region"
    
