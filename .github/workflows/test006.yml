@@ -47,7 +47,7 @@ jobs:
           echo "deploy-to-prod"
  
   integration-testing:
-    if: ${{ github.event.inputs.is_secondary_region_active }}
+    if: ${{ github.event.inputs.is_secondary_region_active == 'True'}}
     needs: [deploy-to-prod]
     runs-on: Ubuntu-Latest
     steps:
