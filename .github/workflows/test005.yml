@@ -63,7 +63,7 @@ jobs:
           fi  
 
   promote-to-prod:
-    needs: ${{ env.Need1 }}
+    needs: '${{ env.Need1 }}'
     runs-on: Ubuntu-Latest
     steps:
       - name: "promote-to-prod"
