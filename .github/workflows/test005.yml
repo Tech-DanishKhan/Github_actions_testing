@@ -84,30 +84,31 @@ jobs:
           fi        
 
   close-change-request-failure:
+    needs: [deploy-to-prod, promote-to-prod, create-change-request]
     runs-on: Ubuntu-Latest
     steps:
       - name: close-change-request-failure
         run: |
           if ${{ github.event.inputs.is_secondary_region_active }}; then
-            needs: [deploy-to-prod, promote-to-prod, scale-down-prev-instance, create-change-request]
+            needs: [scale-down-prev-instance]
             echo "close-change-request-failure if ."  
           else
-            needs: [deploy-to-prod, promote-to-prod, create-change-request]
+            
             echo "close-change-request-failure  else ."
             
           fi
 
   close-change-request-success:
+    needs: [deploy-to-prod, promote-to-prod, create-change-request]
     runs-on: Ubuntu-Latest
     steps:
       - name: close-change-request-failure
         run: |
           if ${{ github.event.inputs.is_secondary_region_active }}; then
-            needs: [deploy-to-prod, promote-to-prod, scale-down-prev-instance, create-change-request]
+            needs: [scale-down-prev-instance]
             echo "close-change-request-success if ."
              
           else
-            needs: [deploy-to-prod, promote-to-prod, create-change-request]
             echo "close-change-request-success else ."
             
           fi
