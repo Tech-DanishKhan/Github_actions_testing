@@ -63,7 +63,7 @@ jobs:
           fi  
 
   promote-to-prod:
-    needs: '${{ env.Need1 }}'
+    needs: [build]
     runs-on: Ubuntu-Latest
     steps:
       - name: "promote-to-prod"
@@ -85,7 +85,7 @@ jobs:
           fi        
 
   close-change-request-failure:
-    needs:  '${{ env.Need2 }}'
+    needs:  [build]
     runs-on: Ubuntu-Latest
     steps:
       - name: "close-change-request-failure"
@@ -94,7 +94,7 @@ jobs:
     
 
   close-change-request-success:
-    needs: '${{ env.Need2 }}'
+    needs: [build]
     runs-on: CAI-Enterprise-Ubuntu-Latest
     steps:
       - name: "close-change-request-success"
