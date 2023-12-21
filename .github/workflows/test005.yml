@@ -83,33 +83,34 @@ jobs:
             echo "Need2=promote-to-prod" >> $GITHUB_ENV 
           fi        
 
-  close-change-request-failure:
-    needs: [deploy-to-prod, promote-to-prod, create-change-request]
-    runs-on: Ubuntu-Latest
-    steps:
-      - name: close-change-request-failure
-        run: |
-          if ${{ github.event.inputs.is_secondary_region_active }}; then
-            needs: [scale-down-prev-instance]
-            echo "close-change-request-failure if ."  
-          else
-            
-            echo "close-change-request-failure  else ."
-            
-          fi
-
   close-change-request-success:
-    needs: [deploy-to-prod, promote-to-prod, create-change-request]
+    if: ${{ github.event.inputs.is_secondary_region_active == 'true'}} 
+    needs: [deploy-to-prod, promote-to-prod, scale-down-prev-instance, create-change-request]
     runs-on: Ubuntu-Latest
     steps:
       - name: close-change-request-failure
         run: |
           if ${{ github.event.inputs.is_secondary_region_active }}; then
-            needs: [scale-down-prev-instance]
             echo "close-change-request-success if ."
              
           else
             echo "close-change-request-success else ."
             
           fi
+
+  close-change-request-succes:
+    if: ${{ github.event.inputs.is_secondary_region_active == 'false'}} 
+    needs: [deploy-to-prod, promote-to-prod, create-change-request]
+    runs-on: Ubuntu-Latest
+    steps:
+      - name: close-change-request-failure
+        run: |
+          if ${{ github.event.inputs.is_secondary_region_active }}; then
+            echo "close-change-request-success if ."
+             
+          else
+            echo "close-change-request-success else ."
+            
+          fi
+          
     
