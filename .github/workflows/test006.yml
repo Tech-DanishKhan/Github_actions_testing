@@ -1,4 +1,4 @@
- name: Deploy to Prod us-east-2
+name: Deploy to Prod us-east-2
 
 # Summary
 # Manually build and deploy prod environment
