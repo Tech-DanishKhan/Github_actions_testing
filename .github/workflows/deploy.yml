@@ -1,0 +1,23 @@
+name: Deploy to temp2
+
+# Summary
+# Manually build and deploy Temp2 environment
+
+# env:
+#   is_secondary_region_active: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      is_secondary_region_active:
+        default: 'false'
+        required: true
+        type: boolean
+
+
+jobs:
+  deploy-to-temp2:
+    uses: .github/workflows/_deploy-service.yml
+    with:
+      aws_region: us-east-1
+      is_secondary_region_active: ${{ github.event.inputs.is_secondary_region_active }}
