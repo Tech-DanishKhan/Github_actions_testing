@@ -1,0 +1,30 @@
+name: Scale Service
+
+on:
+  workflow_call:
+    inputs:
+      aws_region:
+        required: true 
+        type: string
+        description: The aws region where the scaling happen.
+      
+jobs:
+  scale-service:
+    runs-on: ubuntu-latest
+    env:
+      REGION : ${{ inputs.aws_region }}
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Naming of tfvars file to use
+        id: tfvars_file
+        run: |
+          if [[ "${{ env.REGION }}" == "us-east-1" ]]; then
+            echo "this is if condition "
+          else
+            echo "this is else condition "
+          fi
