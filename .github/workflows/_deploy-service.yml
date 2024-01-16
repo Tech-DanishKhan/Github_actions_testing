@@ -23,7 +23,7 @@ jobs:
       - name: Naming of tfvars file to use
         id: tfvars_file
         run: |
-          if [[ "${{ env.REGION }}" == us-east-1 ]]; then
+          if [ ${{ env.REGION }} == us-east-1 ]; then
             echo "this is if condition "
           else
             echo "this is else condition "
