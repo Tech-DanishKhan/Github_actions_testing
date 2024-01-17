@@ -35,10 +35,10 @@ jobs:
       - name: Overriding Variable 1
         if: ${{ inputs.is_secondary_region_active == 'true' }}
         run: |
-          echo " inputs.is_secondary_region_active == 'true' is working "
+          echo " Overriding Variable 1 is working "
 
       - name: Overriding Variable 2
         if: ${{ inputs.is_secondary_region_active }}
         run: |
-          echo " inputs.is_secondary_region_active is working "
+          echo " Overriding Variable 2 is working "
           
