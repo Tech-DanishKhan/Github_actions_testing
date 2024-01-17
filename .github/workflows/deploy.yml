@@ -20,5 +20,5 @@ jobs:
     uses: ./.github/workflows/_deploy-service.yml 
     with:
       aws_region: us-east-1
-      is_secondary_region_active: false
-      # is_secondary_region_active: ${{ github.event.inputs.is_secondary_region_active }}
+      # is_secondary_region_active: false
+      is_secondary_region_active: ${{ inputs.is_secondary_region_active }}
