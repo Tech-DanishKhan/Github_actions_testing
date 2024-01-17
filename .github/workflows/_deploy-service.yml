@@ -10,7 +10,7 @@ on:
       is_secondary_region_active:
         required: true 
         type: boolean 
-        description: The aws region where the scaling happen.
+        description: The aws region where secondary region active.
 jobs:
   scale-service:
     runs-on: ubuntu-latest
@@ -32,10 +32,10 @@ jobs:
             echo "this is else condition "
           fi
 
-      - name: Overriding Variable 1
-        if: ${{ inputs.is_secondary_region_active == 'true' }}
-        run: |
-          echo " Overriding Variable 1 is working "
+      # - name: Overriding Variable 1
+      #   if: ${{ inputs.is_secondary_region_active == 'true' }}
+      #   run: |
+      #     echo " Overriding Variable 1 is working "
 
       - name: Overriding Variable 2
         if: ${{ inputs.is_secondary_region_active }}
