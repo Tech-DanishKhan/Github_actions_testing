@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       is_secondary_region_active:
-        default: false
+        default: 'false'
         required: true
         type: boolean
 
