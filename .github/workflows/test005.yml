@@ -84,7 +84,7 @@ jobs:
           fi        
 
   close-change-request-success:
-    if: ${{ github.event.inputs.is_secondary_region_active == true }} 
+    if: ${{ github.event.inputs.is_secondary_region_active == 'true' }} 
     needs: [deploy-to-prod, promote-to-prod, scale-down-prev-instance, create-change-request]
     runs-on: Ubuntu-Latest
     steps:
@@ -99,7 +99,7 @@ jobs:
           fi
 
   close-change-request-succes:
-    if: ${{ github.event.inputs.is_secondary_region_active == false }} 
+    if: ${{ github.event.inputs.is_secondary_region_active == 'false' }} 
     needs: [deploy-to-prod, promote-to-prod, create-change-request]
     runs-on: Ubuntu-Latest
     steps:
